@@ -58,6 +58,7 @@ public class AddTransactionActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intentQuoteList = new Intent(AddTransactionActivity.this, QuoteListActivity.class);
+                intentQuoteList.putExtra("ChooseQuote", true);
                 startActivityForResult(intentQuoteList, 1);
             }
         });

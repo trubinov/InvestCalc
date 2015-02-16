@@ -12,6 +12,7 @@ import android.view.MenuItem;
 public class QuoteListActivity extends ActionBarActivity implements SecuritiesFragment.onShareSelected {
 
     SecuritiesFragment securitiesFragment;
+    boolean chooseQuote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class QuoteListActivity extends ActionBarActivity implements SecuritiesFr
             fragmentTransaction.commit();
             securitiesFragment.updateQuotes();
         }
+        chooseQuote = getIntent().getBooleanExtra("ChooseQuote", false);
     }
 
     @Override
@@ -50,11 +52,13 @@ public class QuoteListActivity extends ActionBarActivity implements SecuritiesFr
 
     @Override
     public void shareSelected(StockQuote value) {
-        Log.d("LOG", value.getCode());
-        Intent intentResult = new Intent();
-        intentResult.putExtra("ShareQuote", value.getCode());
-        setResult(RESULT_OK, intentResult);
-        finish();
+        if (chooseQuote) {
+            Log.d("LOG", value.getCode());
+            Intent intentResult = new Intent();
+            intentResult.putExtra("ShareQuote", value.getCode());
+            setResult(RESULT_OK, intentResult);
+            finish();
+        }
     }
 
 }
