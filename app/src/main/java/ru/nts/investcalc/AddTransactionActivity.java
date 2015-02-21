@@ -7,13 +7,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -24,6 +27,11 @@ public class AddTransactionActivity extends ActionBarActivity {
     EditText etPrice;
     EditText etCount;
     Button btnSelectStock;
+    Button btnAddTransaction;
+    SimpleDateFormat simpleDateFormat;
+    String stockCode;
+    Date transactionDate;
+    Transaction.TransactionType transactionType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,21 +43,29 @@ public class AddTransactionActivity extends ActionBarActivity {
         etPrice = (EditText) findViewById(R.id.etPrice);
         etCount = (EditText) findViewById(R.id.etCount);
         btnSelectStock = (Button) findViewById(R.id.btnSelectStock);
+        btnAddTransaction = (Button) findViewById(R.id.btnAddTransaction);
+
+        simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Date now = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-                sdf.format(now);
+                Calendar nowCalendar = Calendar.getInstance();
                 DatePickerDialog datePickerDialog;
                 datePickerDialog = new DatePickerDialog(AddTransactionActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         String dateText = String.format("%02d.%02d.%04d", dayOfMonth, monthOfYear+1, year);
+                        try {
+                            transactionDate = simpleDateFormat.parse(dateText);
+                        } catch (ParseException e) {
+                            transactionDate = new Date();
+                            e.printStackTrace();
+                        }
                         etDate.setText(dateText);
                     }
-                }, 2015, 0, 1);
+                }, nowCalendar.get(Calendar.YEAR), nowCalendar.get(Calendar.MONTH), nowCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
             }
         });
@@ -63,9 +79,40 @@ public class AddTransactionActivity extends ActionBarActivity {
             }
         });
 
+        btnAddTransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDatabaseHelper myDatabaseHelper = MyDatabaseManager.getInstance().getDatabaseHelper();
+                Transaction transaction = new Transaction();
+                transaction.setTransactionDate(transactionDate);
+                transaction.setStockCode(stockCode);
+                transaction.setPrice(Double.parseDouble(etPrice.getText().toString()));
+                transaction.setCount(Double.parseDouble(etCount.getText().toString()));
+                transaction.setSum(transaction.getPrice() * transaction.getCount());
+                if (transactionType != null) {
+                    transaction.setTransactionType(transactionType);
+                    myDatabaseHelper.safeAddTransaction(transaction);
+                } else {
+                    // Error: empty transaction type
+                }
+            }
+        });
+
+        // выбор типа транзакции
         ArrayAdapter<Transaction.TransactionType> opTypeAdapter;
         opTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Transaction.TransactionType.values());
         spnOpType.setAdapter(opTypeAdapter);
+        spnOpType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                transactionType = (Transaction.TransactionType) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                transactionType = null;
+            }
+        });
 
     }
 
@@ -97,8 +144,8 @@ public class AddTransactionActivity extends ActionBarActivity {
         if (data != null) {
             if ((requestCode == 1) && (resultCode == RESULT_OK)) {
                 // share quote selected from child activity
-                String shareQuoteCode = data.getStringExtra("ShareQuote");
-                btnSelectStock.setText(shareQuoteCode);
+                stockCode = data.getStringExtra("ShareQuote");
+                btnSelectStock.setText(stockCode);
             }
         }
     }

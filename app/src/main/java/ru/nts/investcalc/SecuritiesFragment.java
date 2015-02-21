@@ -3,6 +3,7 @@ package ru.nts.investcalc;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Created by Николай on 24.01.2015.
  */
-public class SecuritiesFragment extends android.support.v4.app.ListFragment {
+public class SecuritiesFragment extends ListFragment {
 
     public static String RBC_URL = "http://stock.quote.rbc.ru/demo/micex.0/intraday/index.rus.js?format=json";
     public static int IND_CODE = 10;

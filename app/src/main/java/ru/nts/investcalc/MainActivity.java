@@ -13,6 +13,7 @@ import android.widget.Button;
 public class MainActivity extends ActionBarActivity implements SecuritiesFragment.onShareSelected {
 
     SecuritiesFragment securitiesFragment;
+    PortfolioFragment portfolioFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,17 +21,18 @@ public class MainActivity extends ActionBarActivity implements SecuritiesFragmen
         setContentView(R.layout.activity_main);
 
         securitiesFragment = new SecuritiesFragment();
+        portfolioFragment = new PortfolioFragment();
 
         FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.add(R.id.frmSecurities, securitiesFragment);
+        fTrans.add(R.id.frmSecurities, portfolioFragment);
         fTrans.commit();
 
         Button btnRefresh = (Button) findViewById(R.id.btnRefresh);
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent quoteListActivity = new Intent(MainActivity.this, QuoteListActivity.class);
-                startActivityForResult(quoteListActivity, 1);
+                //Intent quoteListActivity = new Intent(MainActivity.this, QuoteListActivity.class);
+                //startActivityForResult(quoteListActivity, 1);
                 // запустить обновление фрагмента
                 //securitiesFragment.updateQuotes();
             }
