@@ -20,7 +20,9 @@ public class PortfolioAdapter extends ArrayAdapter<Portfolio> {
 
     private class ViewHolder {
         TextView tvStockCode;
+        TextView tvStockName;
         TextView tvPrice;
+        TextView tvNowPrice;
     }
 
     /**
@@ -51,14 +53,18 @@ public class PortfolioAdapter extends ArrayAdapter<Portfolio> {
             convertView = mInflater.inflate(R.layout.portfolio_row, null);
             viewHolder = new ViewHolder();
             viewHolder.tvStockCode = (TextView) convertView.findViewById(R.id.tvStockCode);
+            viewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tvStockName);
             viewHolder.tvPrice = (TextView) convertView.findViewById(R.id.tvPrice);
+            viewHolder.tvNowPrice = (TextView) convertView.findViewById(R.id.tvNowPrice);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         viewHolder.tvStockCode.setText(item.getStockCode());
+        viewHolder.tvStockCode.setText(item.getStockName());
         viewHolder.tvPrice.setText(String.format("%.6f", item.getAvePrice()));
+        viewHolder.tvNowPrice.setText(String.format("%.6f", item.getActualPrice()));
 
         return convertView;
 

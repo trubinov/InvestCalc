@@ -34,6 +34,9 @@ public class Transaction {
     @DatabaseField
     private double sum;
 
+    @DatabaseField(foreign = true)
+    private StockQuote stockQuote;
+
     public Transaction () {}
 
     public Transaction(String stockCode, TransactionType transactionType, Date transactionDate, double price, double count, double sum) {
@@ -95,6 +98,14 @@ public class Transaction {
 
     public void setSum(double sum) {
         this.sum = sum;
+    }
+
+    public StockQuote getStockQuote() {
+        return stockQuote;
+    }
+
+    public void setStockQuote(StockQuote stockQuote) {
+        this.stockQuote = stockQuote;
     }
 
 }

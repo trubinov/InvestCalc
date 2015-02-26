@@ -14,6 +14,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,6 +33,7 @@ public class AddTransactionActivity extends ActionBarActivity {
     Button btnAddTransaction;
     SimpleDateFormat simpleDateFormat;
     String stockCode;
+    StockQuote stockQuote;
     Date transactionDate;
     Transaction.TransactionType transactionType;
 
@@ -86,12 +90,14 @@ public class AddTransactionActivity extends ActionBarActivity {
                 Transaction transaction = new Transaction();
                 transaction.setTransactionDate(transactionDate);
                 transaction.setStockCode(stockCode);
+                transaction.setStockQuote(stockQuote);
                 transaction.setPrice(Double.parseDouble(etPrice.getText().toString()));
                 transaction.setCount(Double.parseDouble(etCount.getText().toString()));
                 transaction.setSum(transaction.getPrice() * transaction.getCount());
                 if (transactionType != null) {
                     transaction.setTransactionType(transactionType);
                     myDatabaseHelper.safeAddTransaction(transaction);
+                    finish();
                 } else {
                     // Error: empty transaction type
                 }
@@ -145,6 +151,12 @@ public class AddTransactionActivity extends ActionBarActivity {
             if ((requestCode == 1) && (resultCode == RESULT_OK)) {
                 // share quote selected from child activity
                 stockCode = data.getStringExtra("ShareQuote");
+                try {
+                    Dao<StockQuote, String> stockQuotes = MyDatabaseManager.getInstance().getDatabaseHelper().getStockQuotes();
+                    stockQuote = stockQuotes.queryForId(stockCode);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 btnSelectStock.setText(stockCode);
             }
         }

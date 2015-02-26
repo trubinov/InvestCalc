@@ -24,6 +24,9 @@ public class Portfolio {
     @DatabaseField
     private double sum;
 
+    @DatabaseField(foreign = true)
+    private StockQuote stockQuote;
+
     public Portfolio() { }
 
     public Portfolio(String stockCode, double avePrice, double count, double sum) {
@@ -67,5 +70,25 @@ public class Portfolio {
 
     public void setSum(double sum) {
         this.sum = sum;
+    }
+
+    public StockQuote getStockQuote() {
+        return this.stockQuote;
+    }
+
+    public void setStockQuote(StockQuote stockQuote) {
+        this.stockQuote = stockQuote;
+    }
+
+    public String getStockName() {
+        if (stockQuote != null)
+            return stockQuote.getName();
+        return "неизвестная бумага";
+    }
+
+    public double getActualPrice() {
+        if (stockQuote != null)
+            return stockQuote.getPrice();
+        return 0;
     }
 }

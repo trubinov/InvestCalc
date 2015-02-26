@@ -25,7 +25,7 @@ public class MyDatabaseHelper extends OrmLiteSqliteOpenHelper {
     // name of the database file for your application
     private static final String DATABASE_NAME = "investcalc.db";
     // any time you make changes to your database objects, you may have to increase the database version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
 
     private Dao<Transaction, Integer> transactions = null;
     private RuntimeExceptionDao<Transaction, Integer> transactionRuntimeDao = null;
@@ -58,9 +58,11 @@ public class MyDatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int i, int i2) {
         try {
-            TableUtils.dropTable(connectionSource, StockQuote.class, true);
             TableUtils.dropTable(connectionSource, Transaction.class, true);
+            TableUtils.dropTable(connectionSource, Portfolio.class, true);
+            TableUtils.dropTable(connectionSource, StockQuote.class, true);
             onCreate(sqLiteDatabase, connectionSource);
+            Log.i(MyDatabaseHelper.class.getName(), "Database Update OK");
         } catch (SQLException e) {
             Log.e(MyDatabaseHelper.class.getName(), "Can't upgrade database", e);
             throw new RuntimeException(e);
@@ -146,6 +148,7 @@ public class MyDatabaseHelper extends OrmLiteSqliteOpenHelper {
         } else {
             p = new Portfolio();
             p.setStockCode(newTransaction.getStockCode());
+            p.setStockQuote(newTransaction.getStockQuote());
             newPrice = newTransaction.getPrice();
             newCount = newTransaction.getCount();
             newSum = newTransaction.getSum();
@@ -253,8 +256,12 @@ public class MyDatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void close() {
         super.close();
+        stockQuotes = null;
+        stockQuoteRuntimeDao = null;
         transactions = null;
         transactionRuntimeDao = null;
+        portfolios = null;
+        portfolioRuntimeDao = null;
     }
 
 }

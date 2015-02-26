@@ -3,6 +3,8 @@ package ru.nts.investcalc;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by Николай on 01.02.2015.
  */
