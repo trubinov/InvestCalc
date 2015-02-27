@@ -24,13 +24,14 @@ public class Portfolio {
     @DatabaseField
     private double sum;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private StockQuote stockQuote;
 
     public Portfolio() { }
 
-    public Portfolio(String stockCode, double avePrice, double count, double sum) {
-        this.stockCode = stockCode;
+    public Portfolio(StockQuote stockQuote, double avePrice, double count, double sum) {
+        this.stockQuote = stockQuote;
+        this.stockCode = stockQuote.getCode();
         this.avePrice = avePrice;
         this.count = count;
         this.sum = sum;

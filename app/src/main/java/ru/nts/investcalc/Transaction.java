@@ -34,13 +34,14 @@ public class Transaction {
     @DatabaseField
     private double sum;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private StockQuote stockQuote;
 
     public Transaction () {}
 
-    public Transaction(String stockCode, TransactionType transactionType, Date transactionDate, double price, double count, double sum) {
-        this.stockCode = stockCode;
+    public Transaction(StockQuote stockQuote, TransactionType transactionType, Date transactionDate, double price, double count, double sum) {
+        this.stockQuote = stockQuote;
+        this.stockCode = stockQuote.getCode();
         this.transactionType = transactionType;
         this.transactionDate = transactionDate;
         this.price = price;
