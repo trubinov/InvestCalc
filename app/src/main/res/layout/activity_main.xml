@@ -12,7 +12,50 @@
         android:id="@+id/btnRefresh"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="#ff00acff"
+        android:textColor="#ffffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/textIncomingSum"
+        android:id="@+id/tvSumText"
+        android:layout_gravity="left|top"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/btnRefresh"
+        android:layout_toEndOf="@+id/btnRefresh"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/textActualSum"
+        android:id="@+id/tvActualSumText"
+        android:layout_below="@+id/tvSumText"
+        android:layout_toRightOf="@+id/btnRefresh"
+        android:layout_toEndOf="@+id/btnRefresh"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/tvSum"
+        android:layout_alignTop="@+id/tvSumText"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/tvActualSum"
+        android:layout_alignTop="@+id/tvActualSumText"
+        android:layout_alignParentRight="true" />
 
     <FrameLayout
         android:layout_width="fill_parent"
@@ -20,5 +63,11 @@
         android:layout_below="@+id/btnRefresh"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/frmSecurities"></FrameLayout>
+        android:id="@+id/frmPortfolio"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+
+    </FrameLayout>
+
 </RelativeLayout>

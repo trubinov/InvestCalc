@@ -8,5 +8,7 @@
     <string name="quote_list_menu_item">Котировки</string>
     <string name="title_activity_add_transaction">Добавить транзакцию</string>
     <string name="add_transaction_menu_item">Добавить</string>
+    <string name="textIncomingSum">Сумма влож.</string>
+    <string name="textActualSum">Сумма ликв.</string>
 
 </resources>

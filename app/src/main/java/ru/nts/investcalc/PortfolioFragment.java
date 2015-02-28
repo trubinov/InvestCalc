@@ -17,4 +17,8 @@ public class PortfolioFragment extends ListFragment {
         setListAdapter(adapter);
     }
 
+    public void RefreshData() {
+        adapter.notifyDataSetChanged();
+    }
+
 }

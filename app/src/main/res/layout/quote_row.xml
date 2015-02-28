@@ -14,7 +14,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Name"
-            android:id="@+id/txtQuoteName" />
+            android:id="@+id/txtQuoteName"
+            style="@style/AppTheme.StockName" />
 
         <TextView
             android:layout_width="wrap_content"
